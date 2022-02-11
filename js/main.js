@@ -588,9 +588,10 @@ const cargarPreset = (presetKey, secuenciaActual) => {
         punteroInstrumentos += 2;
         let volumenInstr = "";
         while (instrumentosConcatenados[punteroInstrumentos] != "!") {
-            volumenInstr += instrumentosConcatenados[punteroInstrumentos]
+            volumenInstr += instrumentosConcatenados[punteroInstrumentos];
             punteroInstrumentos++;
         }
+        console.log({volumenInstr});
         // Para compensar el "!"
         punteroInstrumentos++;
     }
