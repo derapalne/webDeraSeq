@@ -603,6 +603,7 @@ const cargarPreset = (presetKey, secuenciaActual) => {
 
 const cambiarPuntero = (nuevoPuntero) => {
     punteroGlobal = nuevoPuntero;
+    $(".cell").removeClass("active");
     $(`#cellPuntero${nuevoPuntero}`).addClass("active");
 }
 
