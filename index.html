@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Proyecto Final: Secuenciador</title>
+        <!-- Bootstrap Icons -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
+        />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@300&display=swap"
+            rel="stylesheet"
+        />
+        <!-- Hoja de estilos -->
+        <link rel="stylesheet" href="./estilo.css" />
+    </head>
+    <body>
+        <!-- Menú lateral -->
+        <div id="menuSidebar" class="sidebar">
+            <button id="btnMenu" class="btn menu"><i class="bi bi-list"></i></button>
+            <br />
+            <br />
+            <h1 class="menuTitle">webDeraSeq v0.1</h1>
+            <br />
+            <br />
+            <!-- Botón de Guardar Preset -->
+            <button id="btnSavePreset" class="btn2">Guardar Preset</button>
+            <div id="presetInputDiv">
+                <br />
+                <form id="formPresetName">
+                    <button id="btnCycleName" class="btnPresets">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </button>
+                    <input type="text" id="presetNameInput" />
+                    <input type="submit" id="btnSaveName" class="btnPresets" value=">" />
+                </form>
+            </div>
+            <br />
+            <!-- Botón de Cargar Preset -->
+            <button id="btnLoadPreset" class="btn2">Cargar Preset</button>
+            <div id="presetLoadDiv">
+                <br />
+                <form id="formLoadPreset">
+                    <select id="selectPreset" title="Seleccioná el preset que quieras cargar"></select>
+                    <input type="submit" id="btnLoadPresetFromStorage" class="btnPresets" value=">" />
+                </form>
+            </div>
+        </div>
+
+        <br />
+        <!-- Barra de Herramientas Globales -->
+        <div class="container title">
+            <div class="toolbar">
+                <!-- Botón de Play -->
+                <div id="btnPlayDiv">
+                    <button class="btn selector play" id="btnPlay">
+                        <i class="bi bi-play-fill"></i>
+                    </button>
+                </div>
+                <!-- Tempo -->
+                <div class="tempo-container">
+                    <input type="range" min="40" max="240" id="sliderTempo" />
+                    <small id="tempoNumberDisplay">120</small>
+                </div>
+            </div>
+        </div>
+        <!-- Visor de secuencias -->
+        <div class="container" id="visor">
+            <div class="pantalla" id="pantalla">
+                <button class="flecha" id="flechaIzq"><i class="bi bi-chevron-left"></i></button>
+                <!-- La secuencia en sí-->
+                <div id="secuencia"></div>
+                <button class="flecha" id="flechaDer"><i class="bi bi-chevron-right"></i></button>
+            </div>
+            <div id="puntitos"></div>
+        </div>
+        <!-- Barra de Herramientas de la Secuencia -->
+        <div class="container" id="bloque">
+            <div class="botoneras">
+                <!-- Botones de Instrumento -->
+                <h2 class="titulo-botones" id="titleInstrumentControls">Instrumento</h2>
+                <div class="aligner">
+                    <img src="res/img/i00.png" id="imgInstr" />
+                    <div class="volume-container">
+                        <input type="range" min="0" max="100" id="sliderVolume" />
+                        <small id="volumeDisplay">1</small>
+                    </div>
+                </div>
+                <div class="controls" id="divBtnInstrumentos">
+                    <div id="divCambioInstr">
+                        <button class="btn" id="btnInstrument">
+                            <i class="bi bi-boombox">Cambiar</i>
+                        </button>
+                        <button class="btn" id="btnInstrumentType">
+                            <i class="bi bi-boombox">Cambiar tipo</i>
+                        </button>
+                    </div>
+                    <br />
+                    <button class="btn" id="btnSaveInstr">
+                        <i class="bi bi-hdd-stack">Guardar</i>
+                    </button>
+                    <button class="btn" id="btnLoadInstr">
+                        <i class="bi bi-hdd-stack">Cargar</i>
+                    </button>
+                </div>
+            </div>
+            <div class="botoneras">
+                <!-- Botones de Secuencia -->
+                <h2 class="titulo-botones" id="titleSeqControls">Secuencia</h2>
+                <div class="controls" id="divBtnSecuencia">
+                    <button class="btn" id="btnMute"><i class="bi bi-volume-up">Silenciar</i></button>
+                    <button class="btn" id="btnClean"><i class="bi bi-file-earmark">Limpiar</i></button>
+                    <br />
+                    <button class="btn" id="btnSave"><i class="bi bi-hdd-stack">Guardar</i></button>
+                    <button class="btn" id="btnLoad"><i class="bi bi-hdd-stack">Cargar</i></button>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="container">
+            <h1 class="titulo">-={@ webDeraSeq v0.1 @}=-</h1>
+            <p class="parrafo">
+                Este es un secuenciador web escrito en JS utilizando jQuery. La grilla que ocupa el lugar central en la pantalla
+                es donde vas a cliquear y poner las notas, ¡y van a sonar! Podés crear las canciones o secuencias que quieras dentro de
+                lo permitido. Esta app va a ir recibiendo updates, y tengo ya varios en mente para ir agregando cosas.
+            </p>
+            <h3 class="titulo">INSTRUCCIONES</h3>
+            <div class="parrafo">
+                <ul>
+                    <li><strong>Panel superior</strong></li>
+                </ul>
+            </div>
+        </div>
+        <!-- JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="./js/main.js"></script>
+    </body>
+</html>

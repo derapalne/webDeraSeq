@@ -1,0 +1,379 @@
+* {
+    font-family: "Zilla Slab", serif;
+}
+
+body {
+    background-color: #342;
+}
+
+.sidebar {
+    height: 100%;
+    width: 70px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #120;
+    overflow-x: hidden;
+    padding-top: 30px;
+    padding-left: 30px;
+    transition: 0.5s;
+}
+
+.container {
+    margin: 2% 10%;
+    padding: 3%;
+    border-radius: 5%;
+    background-color: #bd9;
+    align-items: center;
+    box-shadow: 0px 5px #ac8;
+}
+
+.container.title {
+    margin: 0 10%;
+    border-radius: 10%;
+    text-align: center;
+    padding: 1%;
+}
+
+.botoneras {
+    padding: 1%;
+    margin: 0% auto;
+}
+
+.tabla {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    padding: 3%;
+    border-spacing: 5px;
+    border-radius: 5%;
+}
+
+tabla.active {
+    display: initial;
+}
+
+.tabla.inactive {
+    display: none;
+}
+
+.fila {
+    padding: 5%;
+    background-color: #795;
+
+}
+
+.fila.puntero {
+    margin-top: 10%;
+    background-color: #573;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    margin: 3px;
+    border: 1px groove;
+    border-color: #ac8;
+    background-color: #bd9;
+    border-radius: 5%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 0.3s;
+    box-sizing: border-box;
+}
+
+.cell.active {
+    border-radius: 5%;
+    background-color: #342;
+    transition: none;
+}
+
+.cell > div {
+    display: none;
+}
+
+.circulito {
+    box-sizing: border-box;
+    display: inline-flex;
+}
+
+.pantalla {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flecha {
+    padding: 25px;
+    opacity: 1;
+    transition: 0.2s;
+    background: none;
+    border: none;
+}
+
+.toolbar {
+    width: 80%;
+    margin: 0 13%;
+    padding: 1%;
+    border-radius: 7%;
+    background-color: #cea;
+    display: flex;
+    justify-content: center;
+}
+
+.tempo-container {
+    background-color: #bd9;
+    padding: 9px;
+    margin-left: 35%;
+}
+
+.flecha.activa {
+    opacity: 1;
+}
+
+.controls {
+    display: block;
+}
+
+.aligner {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+    padding-bottom: 10px;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.parrafo {
+    margin: 0vh 10vh;
+    color:#342;
+    font-size: large;
+    font-weight: bold;
+    text-justify: newspaper;
+    text-indent: 20px;
+}
+
+.flecha.activa:hover {
+    opacity: 1;
+    text-shadow: black 0px 0px 5px;
+}
+
+tr :nth-child(4n-3) {
+    background-color: #9b7;
+}
+
+.cell.selected > div {
+    width: 15px;
+    height: 15px;
+    border-radius: 70%;
+    border: 4px solid #0000;
+    background-color: #342;
+    display: block;
+}
+
+td.cell:hover {
+    background-color: #cea;
+}
+
+td.cell.selected:hover > div {
+    background-color: #453;
+}
+
+.cell.active:hover {
+    background-color: #564;
+}
+
+#bloque {
+    display: flex;
+    text-align: center;
+}
+
+#sliderTempo {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 10px;
+    background-color: #ac8;
+}
+
+#sliderTempo::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 10px;
+    background-color: #795;
+}
+
+#tempoNumberDisplay {
+    font-family: monospace;
+    font-size: large;
+    margin-bottom: 5px;
+}
+
+#sliderVolume {
+    -webkit-appearance: none;
+    background-image: url(./res/img/volumen-fondo.png);
+    margin-top: 10px;
+    margin-left: 50px;
+    width: 100px;
+    height: 20px;
+}
+
+#sliderVolume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 10px;
+    height: 40px;
+    background-color: #573;
+}
+
+#volumeDisplay {
+    font-family: monospace;
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+#btnPlayDiv {
+    text-align: center;
+}
+
+
+small:last-child {
+    background-color: #ac8;
+    margin-bottom: 7px;
+}
+
+.btn {
+    border-radius: 10%;
+    border-color: #453;
+    color: #453;
+    background-color: #9b7;
+    font-size: 170%;
+    transition-duration: 0.2s;
+}
+
+.btn.selector {
+    background-color: #ac8;
+    display: inline;
+    text-align: center;
+}
+
+.btn.play {
+    background-color: #bd9;
+    border-color: #ac8;
+}
+
+.btn.menu {
+    background-color: #342;
+    display: block;
+}
+
+.btn > i {
+    font-style: normal;
+    color: #453;
+}
+
+.btn.menu > i {
+    color:#cea;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #573;
+}
+
+.btn.play:hover {
+    cursor: pointer;
+    background-color: #9b7;
+}
+
+.btn > i:hover {
+    font-style: normal;
+    color: #120;
+}
+
+.btn2 {
+    background: none;
+    border: none;
+    font-size: 170%;
+    color: #bd9;
+    width: 100%;
+    transition: 0.2s;
+    display: none;
+    white-space: nowrap;
+}
+
+.btn2:hover {
+    background-color: #342;
+    cursor: pointer;
+}
+
+.menuTitle {
+    background: none;
+    border: none;
+    font-size: 170%;
+    color: #bd9;
+    width: 100%;
+    transition: 0.2s;
+    display: none;
+    white-space: nowrap;
+    text-align: center;
+}
+
+#presetInputDiv, #presetLoadDiv {
+    text-align: center;
+    display: none;
+}
+
+#presetNameInput, #selectPreset {
+    background-color: #342;
+    border: solid 2px #453;
+    color: #bd9;
+    width: 70%;
+}
+
+#secuencia {
+    position: relative;
+}
+
+.btnPresets {
+    background-color: #342;
+    border: solid 2px #453;
+    color:#bd9;
+    cursor: pointer;
+}
+
+#btnSaveName:hover {
+    background-color: #453;
+}
+
+#puntitos{
+    text-align: center;
+    background-color: #bd9;
+}
+
+.punto {
+    background-color: #bd9;
+    color: #795;
+    text-shadow: #573 1px 1px;
+    font-size: 45px;
+}
+
+.punto.activo {
+    color:#453;
+}
+
+#imgInstr {
+    image-rendering: crisp-edges;
+    max-height: 40px;
+}
+
+#divCambioInstr {
+    display: inline-block;
+}
+
+#divCambioInstr > button {
+    vertical-align: top;
+}
+
