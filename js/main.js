@@ -587,11 +587,12 @@ const cargarPreset = (presetKey, secuenciaActual) => {
         // Para compensar el número y el guión
         punteroInstrumentos += 2;
         let volumenInstr = "";
+        // Ahora leé la info de volumen de cada instrumento.
         while (instrumentosConcatenados[punteroInstrumentos] != "!") {
             volumenInstr += instrumentosConcatenados[punteroInstrumentos];
             punteroInstrumentos++;
         }
-        console.log({volumenInstr});
+        secuencias[i].instrumento.volumen = parseInt(volumenInstr);
         // Para compensar el "!"
         punteroInstrumentos++;
     }
