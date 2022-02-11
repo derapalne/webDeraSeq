@@ -399,6 +399,7 @@ const crearTabla = (pulsos, secuencia) => {
         celula = document.createElement("td");
         celula.setAttribute("class", "cell");
         celula.setAttribute("id", `cellPuntero${i}`);
+        celula.setAttribute("onclick", `cambiarPuntero(${i})`);
         // Agregalo al table row
         fila.appendChild(celula);
     }
@@ -592,13 +593,18 @@ const cargarPreset = (presetKey, secuenciaActual) => {
             volumenInstr += instrumentosConcatenados[punteroInstrumentos];
             punteroInstrumentos++;
         }
-        secuencias[i].instrumento.volumen = parseInt(volumenInstr);
+        secuencias[i].instrumento.cambiarVolumen(parseInt(volumenInstr));
         // Para compensar el "!"
         punteroInstrumentos++;
     }
     // Refrescá la secuencia actual así se visualizan los cambios
     mostrarSeq(pulsosGlobal, secuenciaActual, secuencias);
 };
+
+const cambiarPuntero = (nuevoPuntero) => {
+    punteroGlobal = nuevoPuntero;
+    $(`#cellPuntero${nuevoPuntero}`).addClass("active");
+}
 
 // Creá el array de secuencias y agregale tres secuencias
 const secuencias = [];
