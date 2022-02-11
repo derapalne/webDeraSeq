@@ -472,8 +472,8 @@ const actualizarPuntitos = (secuenciaActual, secuenciasArray) => {
 
 const actualizarSliderVolumen = () => {
     $("#sliderVolume").val(secuenciaActual.instrumento.volumen);
-    $("#sliderVolume").next().text(secuenciaActual.instrumento.volumen)
-}
+    $("#sliderVolume").next().text(secuenciaActual.instrumento.volumen);
+};
 
 const celulaPresionada = (i, j, id) => {
     // Recuperá la célula presionada por sus coordenadas
@@ -526,6 +526,8 @@ const guardarPreset = (nombrePreset) => {
         instrumentosConcatenados += secuencias[i].instrumento.numeroInstrumento;
         instrumentosConcatenados += "-";
         instrumentosConcatenados += secuencias[i].instrumento.tipoInstrumento;
+        instrumentosConcatenados += "_";
+        instrumentosConcatenados += secuencias[i].instrumento.volumen;
         instrumentosConcatenados += "!";
     }
     let tempo = tempoGlobal;
@@ -577,14 +579,16 @@ const cargarPreset = (presetKey, secuenciaActual) => {
         }
         punteroSecuencias++;
         // Ahora recuperamos la info de instrumentos
-
+        let nroInstr = parseInt(instrumentosConcatenados[punteroInstrumentos]);
+        // Para compensar el número y el guión, probablemente saque esto en un futuro
+        punteroInstrumentos += 2;
+        let tipoInstr = parseInt(instrumentosConcatenados[punteroInstrumentos]);
+        secuencias[i].instrumento.cambiarInstrumento(nroInstr, tipoInstr);
+        // Para compensar el número y el guión
+        punteroInstrumentos += 2;
+        let volumenInstr = "";
         while (instrumentosConcatenados[punteroInstrumentos] != "!") {
-            let nroInstr = parseInt(instrumentosConcatenados[punteroInstrumentos]);
-            // Para compensar el número y el guión, probablemente saque esto en un futuro
-            punteroInstrumentos += 2;
-            let tipoInstr = parseInt(instrumentosConcatenados[punteroInstrumentos]);
-            secuencias[i].instrumento.cambiarInstrumento(nroInstr, tipoInstr);
-            // Para compensar el número
+            volumenInstr += instrumentosConcatenados[punteroInstrumentos]
             punteroInstrumentos++;
         }
         // Para compensar el "!"
@@ -593,8 +597,6 @@ const cargarPreset = (presetKey, secuenciaActual) => {
     // Refrescá la secuencia actual así se visualizan los cambios
     mostrarSeq(pulsosGlobal, secuenciaActual, secuencias);
 };
-
-
 
 // Creá el array de secuencias y agregale tres secuencias
 const secuencias = [];
