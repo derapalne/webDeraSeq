@@ -397,7 +397,7 @@ const crearTabla = (pulsos, secuencia) => {
     // Ahora creá un table data por cada sub-pulso (pulsoGlobal*4)
     for (let i = 0; i < pulsos * 4; i++) {
         celula = document.createElement("td");
-        celula.setAttribute("class", "cell");
+        celula.setAttribute("class", "cell row");
         celula.setAttribute("id", `cellPuntero${i}`);
         celula.setAttribute("onclick", `cambiarPuntero(${i})`);
         // Agregalo al table row

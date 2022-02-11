@@ -84,6 +84,10 @@ tabla.active {
     box-sizing: border-box;
 }
 
+.cell.row {
+    background-color: #9b7;
+}
+
 .cell.active {
     border-radius: 5%;
     background-color: #342;
