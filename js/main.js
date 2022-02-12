@@ -399,6 +399,8 @@ const crearTabla = (pulsos, secuencia) => {
         celula = document.createElement("td");
         celula.setAttribute("class", "cell row");
         celula.setAttribute("id", `cellPuntero${i}`);
+        // Este método es para resetear el puntero manualmente al cliquear la
+        // célula puntero que se quiera
         celula.setAttribute("onclick", `cambiarPuntero(${i})`);
         // Agregalo al table row
         fila.appendChild(celula);
@@ -472,7 +474,9 @@ const actualizarPuntitos = (secuenciaActual, secuenciasArray) => {
 };
 
 const actualizarSliderVolumen = () => {
+    // Actualizá el valor del slider
     $("#sliderVolume").val(secuenciaActual.instrumento.volumen);
+    // Y luego del número al lado
     $("#sliderVolume").next().text(secuenciaActual.instrumento.volumen);
 };
 
@@ -522,12 +526,13 @@ const guardarPreset = (nombrePreset) => {
         let secuenciaAGuardar = secuencias[i].guardarSecuencia(pulsosGlobal, "return");
         secuenciasConcatenadas += secuenciaAGuardar;
         secuenciasConcatenadas += "!";
-        // Concatená los números de instrumento y tipo de instrumento, con un guión en el medio
-        // y un "!" al final para indicar que hay que cambiar de instrumento
+        // Concatená los números de instrumento y tipo de instrumento junto al volumen, 
+        // con un guión en el medio y un "!" al final para indicar
+        //  que hay que cambiar de instrumento
         instrumentosConcatenados += secuencias[i].instrumento.numeroInstrumento;
         instrumentosConcatenados += "-";
         instrumentosConcatenados += secuencias[i].instrumento.tipoInstrumento;
-        instrumentosConcatenados += "_";
+        instrumentosConcatenados += "-";
         instrumentosConcatenados += secuencias[i].instrumento.volumen;
         instrumentosConcatenados += "!";
     }
@@ -584,6 +589,7 @@ const cargarPreset = (presetKey, secuenciaActual) => {
         // Para compensar el número y el guión, probablemente saque esto en un futuro
         punteroInstrumentos += 2;
         let tipoInstr = parseInt(instrumentosConcatenados[punteroInstrumentos]);
+        // Confirmá el cambio de instrumento
         secuencias[i].instrumento.cambiarInstrumento(nroInstr, tipoInstr);
         // Para compensar el número y el guión
         punteroInstrumentos += 2;
@@ -593,6 +599,7 @@ const cargarPreset = (presetKey, secuenciaActual) => {
             volumenInstr += instrumentosConcatenados[punteroInstrumentos];
             punteroInstrumentos++;
         }
+        // Confirmá el cambio de volumen
         secuencias[i].instrumento.cambiarVolumen(parseInt(volumenInstr));
         // Para compensar el "!"
         punteroInstrumentos++;
@@ -602,8 +609,13 @@ const cargarPreset = (presetKey, secuenciaActual) => {
 };
 
 const cambiarPuntero = (nuevoPuntero) => {
+    // Cambiá el puntero global al puntero dado
     punteroGlobal = nuevoPuntero;
+    // Sacale la clase active a todos los elementos de clase cell
+    // o sea, las células de la grilla. Esto es para que no quede seleccionada
+    // la célula donde estaba antes el puntero
     $(".cell").removeClass("active");
+    // Agregale la clase activa a la célula que tiene le nuevo valor de puntero
     $(`#cellPuntero${nuevoPuntero}`).addClass("active");
 }
 
@@ -706,7 +718,6 @@ $(() => {
 
     $("#btnLoadInstr").click(function () {
         cargarInstrumento();
-        // Actualizá el visor de instrumentos
         actualizarVisorInstrumento();
     });
 

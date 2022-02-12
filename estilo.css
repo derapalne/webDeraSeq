@@ -2,6 +2,14 @@
     font-family: "Zilla Slab", serif;
 }
 
+ul {
+    list-style-image: url("./res/img/ul-icon.png");
+    list-style-type: square;
+    list-style-position: inside;
+}
+
+
+
 body {
     background-color: #342;
 }
