@@ -446,11 +446,11 @@ const actualizarVisorInstrumento = () => {
 const cambiarAparienciaBotonMute = () => {
     // Si la secuencia está muteada hacé que el botón diga sonar y tenga un ícono
     if (secuenciaActual.muted) {
-        $("#btnMute").children().text("Sonar");
+        $("#btnMute").children().text(" Sonar");
         $("#btnMute").children().attr("class", "bi bi-volume-up");
     } else {
         // De lo contrario (no está muteada) hacé que diga silenciar y tenga otro ícono
-        $("#btnMute").children().text("Silenciar");
+        $("#btnMute").children().text(" Silenciar");
         $("#btnMute").children().attr("class", "bi bi-volume-mute");
     }
 };
@@ -714,6 +714,10 @@ $(() => {
 
     $("#btnSaveInstr").click(function () {
         guardarInstrumento();
+        $("#btnSaveInstr i:first-child").text(" Guardado!");
+        setTimeout(() => {
+            $("#btnSaveInstr i:first-child").text(" Guardar");
+        }, 1000);
     });
 
     $("#btnLoadInstr").click(function () {
@@ -734,6 +738,11 @@ $(() => {
 
     $("#btnSave").click(function () {
         secuenciaActual.guardarSecuencia(pulsosGlobal, "localStorage");
+        // Dar feedback al usuario
+        $("#btnSave i:first-child").text(" Guardada!");
+        setTimeout(() => {
+            $("#btnSave i:first-child").text(" Guardar");
+        }, 1000);
     });
 
     $("#btnLoad").click(function () {
@@ -846,8 +855,13 @@ $(() => {
         e.preventDefault();
         // Guardá el preset con el valor de la entrada de texto
         guardarPreset($("#presetNameInput").val());
-        // Cerrá el menú "haciendo click" en el botón
-        $("#btnMenu").trigger("clcik");
+        $("#btnSavePreset").text("Guardado!");
+        setTimeout(() => {
+            // Cerrá el menú "haciendo click" en el botón
+            $("#btnMenu").trigger("click");
+            setTimeout(() => $("#btnSavePreset").text("Guardar Preset"), 500);
+        }, 500);
+        
     });
 
     // COMUNICACION CON LA API
