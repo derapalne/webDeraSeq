@@ -6,7 +6,19 @@ let tempoGlobal = 120; // Para el tempo :p
 let contadorSecuencias = 0; // Para llevar cuenta del id de las secuencias
 let playing = false; // Para determinar si está reproduciendo o no
 let secuenciaActual; // Para redefinir más adelante y cambiar dinámicamente para modificar la
-// secuencia en pantalla
+                     // secuencia en pantalla
+
+const escalas = [
+    {nombre: "Pentadórica", e: [0,2,5,7,9,11,12,14]},
+    {nombre: "Mayor", e: [0,2,4,5,7,9,11,12]},
+    {nombre: "Menor", e: [0,2,3,5,7,8,10,12]},
+    {nombre: "Pentatónica", e: [0,3,5,7,10,12,15,17]},
+    {nombre: "Hexatónica", e: [0,2,4,6,8,10,12,14]},
+    {nombre: "Lidio", e: [0,2,4,6,7,9,11,12]},
+    {nombre: "Lidio b7", e: [0,2,4,6,7,9,10,12]}
+];
+
+let escalaActual = 0;
 
 const pulsosGlobal = 4;
 const pokeApiUrl = "https://pokeapi.co/api/v2/berry/";
@@ -155,14 +167,14 @@ class Secuencia {
 class Instrumento {
     constructor() {
         // Cargá los archivos de audio del instrumento por default: 00
-        this.g = new Audio("./res/audio/00-1.wav");
-        this.a = new Audio("./res/audio/00-2.wav");
-        this.c = new Audio("./res/audio/00-3.wav");
-        this.d = new Audio("./res/audio/00-4.wav");
-        this.e = new Audio("./res/audio/00-5.wav");
-        this.f = new Audio("./res/audio/00-6.wav");
-        this.gu = new Audio("./res/audio/00-7.wav");
-        this.au = new Audio("./res/audio/00-8.wav");
+        this.pri = new Audio("./res/audio/00-0.wav"); // primera nota
+        this.seg = new Audio("./res/audio/00-2.wav"); // segunda nota
+        this.ter = new Audio("./res/audio/00-5.wav"); // tercera nota
+        this.cua = new Audio("./res/audio/00-7.wav"); // cuarta nota
+        this.qui = new Audio("./res/audio/00-9.wav"); // quinta nota
+        this.sex = new Audio("./res/audio/00-11.wav"); // sexta nota
+        this.sep = new Audio("./res/audio/00-12.wav"); // septima nota
+        this.oct = new Audio("./res/audio/00-14.wav"); // octava nota
         this.numeroInstrumento = 0;
         this.tipoInstrumento = 0;
         this.volumen = 100;
@@ -170,14 +182,14 @@ class Instrumento {
 
     cambiarInstrumento(nroInstr, tipoInstr) {
         // Cargá los nuevos archivos de audio
-        this.g = new Audio(`./res/audio/${tipoInstr}${nroInstr}-1.wav`);
-        this.a = new Audio(`./res/audio/${tipoInstr}${nroInstr}-2.wav`);
-        this.c = new Audio(`./res/audio/${tipoInstr}${nroInstr}-3.wav`);
-        this.d = new Audio(`./res/audio/${tipoInstr}${nroInstr}-4.wav`);
-        this.e = new Audio(`./res/audio/${tipoInstr}${nroInstr}-5.wav`);
-        this.f = new Audio(`./res/audio/${tipoInstr}${nroInstr}-6.wav`);
-        this.gu = new Audio(`./res/audio/${tipoInstr}${nroInstr}-7.wav`);
-        this.au = new Audio(`./res/audio/${tipoInstr}${nroInstr}-8.wav`);
+        this.pri = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[0]}.wav`);
+        this.seg = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[1]}.wav`);
+        this.ter = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[2]}.wav`);
+        this.cua = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[3]}.wav`);
+        this.qui = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[4]}.wav`);
+        this.sex = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[5]}.wav`);
+        this.sep = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[6]}.wav`);
+        this.oct = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[7]}.wav`);
         // Actualizá los valores del instrumento
         this.numeroInstrumento = nroInstr;
         this.tipoInstrumento = tipoInstr;
@@ -202,52 +214,52 @@ class Instrumento {
                 // se está reproduciendo, entonces lo recarga antes de reproducirlo
                 // Sin este mecanismo si tratas de volver a reproducir un archivo
                 // antes de que termine, no se reproduce.
-                if (this.g.currentTime != 0) {
-                    this.g.load();
+                if (this.pri.currentTime != 0) {
+                    this.pri.load();
                 }
-                this.g.play();
+                this.pri.play();
             }
             if (arrayPulso[i] == 6) {
-                if (this.a.currentTime != 0) {
-                    this.a.load();
+                if (this.seg.currentTime != 0) {
+                    this.seg.load();
                 }
-                this.a.play();
+                this.seg.play();
             }
             if (arrayPulso[i] == 5) {
-                if (this.c.currentTime != 0) {
-                    this.c.load();
+                if (this.ter.currentTime != 0) {
+                    this.ter.load();
                 }
-                this.c.play();
+                this.ter.play();
             }
             if (arrayPulso[i] == 4) {
-                if (this.d.currentTime != 0) {
-                    this.d.load();
+                if (this.cua.currentTime != 0) {
+                    this.cua.load();
                 }
-                this.d.play();
+                this.cua.play();
             }
             if (arrayPulso[i] == 3) {
-                if (this.e.currentTime != 0) {
-                    this.e.load();
+                if (this.qui.currentTime != 0) {
+                    this.qui.load();
                 }
-                this.e.play();
+                this.qui.play();
             }
             if (arrayPulso[i] == 2) {
-                if (this.f.currentTime != 0) {
-                    this.f.load();
+                if (this.sex.currentTime != 0) {
+                    this.sex.load();
                 }
-                this.f.play();
+                this.sex.play();
             }
             if (arrayPulso[i] == 1) {
-                if (this.gu.currentTime != 0) {
-                    this.gu.load();
+                if (this.sep.currentTime != 0) {
+                    this.sep.load();
                 }
-                this.gu.play();
+                this.sep.play();
             }
             if (arrayPulso[i] == 0) {
-                if (this.au.currentTime != 0) {
-                    this.au.load();
+                if (this.oct.currentTime != 0) {
+                    this.oct.load();
                 }
-                this.au.play();
+                this.oct.play();
             }
         }
     }
@@ -255,16 +267,17 @@ class Instrumento {
     cambiarVolumen(nuevoVolumen) {
         this.volumen = nuevoVolumen;
         const volumen = nuevoVolumen / 100;
-        this.g.volume = volumen;
-        this.a.volume = volumen;
-        this.c.volume = volumen;
-        this.d.volume = volumen;
-        this.e.volume = volumen;
-        this.f.volume = volumen;
-        this.gu.volume = volumen;
-        this.au.volume = volumen;
+        this.pri.volume = volumen;
+        this.seg.volume = volumen;
+        this.ter.volume = volumen;
+        this.cua.volume = volumen;
+        this.qui.volume = volumen;
+        this.sex.volume = volumen;
+        this.sep.volume = volumen;
+        this.oct.volume = volumen;
     }
 }
+
 
 const playGlobal = (ms) => {
     // Limpiá el intervalo
@@ -748,6 +761,20 @@ $(() => {
     $("#btnLoad").click(function () {
         secuenciaActual.recuperarSecuencia();
     });
+
+    $("#btnCambioEscala").click(function () {
+        escalaActual++;
+        if(escalaActual >= escalas.length) {
+            escalaActual = 0;
+        }
+        secuencias.forEach(secuencia => {
+            secuencia.instrumento.cambiarInstrumento(
+                secuencia.instrumento.numeroInstrumento,
+                secuencia.instrumento.tipoInstrumento
+            )
+        });
+        $(this).text(escalas[escalaActual].nombre);
+    });    
 
     //SLIDER DE TEMPO
 
