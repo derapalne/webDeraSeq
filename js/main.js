@@ -6,16 +6,18 @@ let tempoGlobal = 120; // Para el tempo :p
 let contadorSecuencias = 0; // Para llevar cuenta del id de las secuencias
 let playing = false; // Para determinar si está reproduciendo o no
 let secuenciaActual; // Para redefinir más adelante y cambiar dinámicamente para modificar la
-                     // secuencia en pantalla
+// secuencia en pantalla
 
 const escalas = [
-    {nombre: "Pentadórica", e: [0,2,5,7,9,11,12,14]},
-    {nombre: "Mayor", e: [0,2,4,5,7,9,11,12]},
-    {nombre: "Menor", e: [0,2,3,5,7,8,10,12]},
-    {nombre: "Pentatónica", e: [0,3,5,7,10,12,15,17]},
-    {nombre: "Hexatónica", e: [0,2,4,6,8,10,12,14]},
-    {nombre: "Lidio", e: [0,2,4,6,7,9,11,12]},
-    {nombre: "Lidio b7", e: [0,2,4,6,7,9,10,12]}
+    { nombre: "Pentadórica", e: [0, 2, 5, 7, 9, 11, 12, 14] },
+    { nombre: "Mayor", e: [0, 2, 4, 5, 7, 9, 11, 12] },
+    { nombre: "Menor", e: [0, 2, 3, 5, 7, 8, 10, 12] },
+    { nombre: "Pentatónica", e: [0, 3, 5, 7, 10, 12, 15, 17] },
+    { nombre: "Hexatónica", e: [0, 2, 4, 6, 8, 10, 12, 14] },
+    { nombre: "Lidio", e: [0, 2, 4, 6, 7, 9, 11, 12] },
+    { nombre: "Lidio b7", e: [0, 2, 4, 6, 7, 9, 10, 12] },
+    { nombre: "Disminuida", e: [0, 3, 6, 9, 12, 15, 18, 21] },
+    { nombre: "Aumentada", e: [0, 4, 8, 10, 12, 16, 20, 22] },
 ];
 
 let escalaActual = 0;
@@ -181,15 +183,21 @@ class Instrumento {
     }
 
     cambiarInstrumento(nroInstr, tipoInstr) {
+        let e = [];
+        if (tipoInstr == 3) {
+            e = [0, 1, 2, 3, 4, 5, 6, 7];
+        } else {
+            e = escalas[escalaActual].e;
+        }
         // Cargá los nuevos archivos de audio
-        this.pri = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[0]}.wav`);
-        this.seg = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[1]}.wav`);
-        this.ter = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[2]}.wav`);
-        this.cua = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[3]}.wav`);
-        this.qui = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[4]}.wav`);
-        this.sex = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[5]}.wav`);
-        this.sep = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[6]}.wav`);
-        this.oct = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${escalas[escalaActual].e[7]}.wav`);
+        this.pri = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[0]}.wav`);
+        this.seg = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[1]}.wav`);
+        this.ter = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[2]}.wav`);
+        this.cua = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[3]}.wav`);
+        this.qui = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[4]}.wav`);
+        this.sex = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[5]}.wav`);
+        this.sep = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[6]}.wav`);
+        this.oct = new Audio(`./res/audio/${tipoInstr}${nroInstr}-${e[7]}.wav`);
         // Actualizá los valores del instrumento
         this.numeroInstrumento = nroInstr;
         this.tipoInstrumento = tipoInstr;
@@ -202,18 +210,6 @@ class Instrumento {
         // reproducí las notas correspondientes
         for (let i = 0; i < arrayPulso.length; i++) {
             if (arrayPulso[i] == 7) {
-                // Este sistema recarga el audio si necesita ser reproducido antes
-                // de haber terminado de reproducirse, sí, se generan clicks,
-                // pero para hacer que eso no pase tendría que crear nuevos
-                // objetos de audio o poder controlarlo más a fondo (como fade ins y fade outs)
-                // cosa que no sé y probablemente consumiría muchos recursos en esta
-                // app que ya está bastante cargada jajaja
-                // Funciona así: los archivos ya están cargados, y si el currentTime,
-                // o sea por dónde está el puntero que lee el archivo, es distinto
-                // a 0, se reproduce el archivo. Ahora, si es distinto, quiere decir que
-                // se está reproduciendo, entonces lo recarga antes de reproducirlo
-                // Sin este mecanismo si tratas de volver a reproducir un archivo
-                // antes de que termine, no se reproduce.
                 if (this.pri.currentTime != 0) {
                     this.pri.load();
                 }
@@ -278,7 +274,6 @@ class Instrumento {
     }
 }
 
-
 const playGlobal = (ms) => {
     // Limpiá el intervalo
     clearInterval(intervalo);
@@ -293,6 +288,26 @@ const playGlobal = (ms) => {
         intervalo = setInterval(playCursor, ms);
         playing = true;
     }
+};
+
+// no está funcionando bien, hay clicks
+const fadeOut = (audio, volume) => {
+    const rate = 0.05;
+    let newVolume = volume / 100;
+    const fadeOut = setInterval(() => {
+        if (newVolume.toFixed(2) <= 0) {
+            clearInterval(fadeOut);
+            console.log(audio.volume);
+            audio.load();
+            audio.volume = volume / 100;
+            console.log(audio.volume);
+            audio.play();
+        } else {
+            newVolume -= rate;
+            audio.volume = newVolume.toFixed(2);
+            console.log(newVolume.toFixed(2));
+        }
+    }, 1);
 };
 
 const playCursor = () => {
@@ -539,7 +554,7 @@ const guardarPreset = (nombrePreset) => {
         let secuenciaAGuardar = secuencias[i].guardarSecuencia(pulsosGlobal, "return");
         secuenciasConcatenadas += secuenciaAGuardar;
         secuenciasConcatenadas += "!";
-        // Concatená los números de instrumento y tipo de instrumento junto al volumen, 
+        // Concatená los números de instrumento y tipo de instrumento junto al volumen,
         // con un guión en el medio y un "!" al final para indicar
         //  que hay que cambiar de instrumento
         instrumentosConcatenados += secuencias[i].instrumento.numeroInstrumento;
@@ -630,7 +645,7 @@ const cambiarPuntero = (nuevoPuntero) => {
     $(".cell").removeClass("active");
     // Agregale la clase activa a la célula que tiene le nuevo valor de puntero
     $(`#cellPuntero${nuevoPuntero}`).addClass("active");
-}
+};
 
 // Creá el array de secuencias y agregale tres secuencias
 const secuencias = [];
@@ -708,19 +723,29 @@ $(() => {
     // unificarlas pero no encontré cómo unificarlas dejando la simplicidad del código
 
     $("#btnInstrumentType").click(function () {
-        if (secuenciaActual.instrumento.tipoInstrumento < 3) {
-            secuenciaActual.instrumento.tipoInstrumento++;
-            secuenciaActual.instrumento.cambiarInstrumento(
-                secuenciaActual.instrumento.numeroInstrumento,
-                secuenciaActual.instrumento.tipoInstrumento
-            );
+        // if (secuenciaActual.instrumento.tipoInstrumento < 3) {
+        //     secuenciaActual.instrumento.tipoInstrumento++;
+        //     secuenciaActual.instrumento.cambiarInstrumento(
+        //         secuenciaActual.instrumento.numeroInstrumento,
+        //         secuenciaActual.instrumento.tipoInstrumento
+        //     );
+        // } else {
+        //     secuenciaActual.instrumento.tipoInstrumento = 0;
+        //     secuenciaActual.instrumento.cambiarInstrumento(
+        //         secuenciaActual.instrumento.numeroInstrumento,
+        //         secuenciaActual.instrumento.tipoInstrumento
+        //     );
+        // }
+
+        if (secuenciaActual.instrumento.tipoInstrumento == 0) {
+            secuenciaActual.instrumento.tipoInstrumento = 3;
         } else {
             secuenciaActual.instrumento.tipoInstrumento = 0;
-            secuenciaActual.instrumento.cambiarInstrumento(
-                secuenciaActual.instrumento.numeroInstrumento,
-                secuenciaActual.instrumento.tipoInstrumento
-            );
         }
+        secuenciaActual.instrumento.cambiarInstrumento(
+            secuenciaActual.instrumento.numeroInstrumento,
+            secuenciaActual.instrumento.tipoInstrumento
+        );
         // Actualizá el visor de instrumentos
         actualizarVisorInstrumento();
     });
@@ -764,17 +789,17 @@ $(() => {
 
     $("#btnCambioEscala").click(function () {
         escalaActual++;
-        if(escalaActual >= escalas.length) {
+        if (escalaActual >= escalas.length) {
             escalaActual = 0;
         }
-        secuencias.forEach(secuencia => {
+        secuencias.forEach((secuencia) => {
             secuencia.instrumento.cambiarInstrumento(
                 secuencia.instrumento.numeroInstrumento,
                 secuencia.instrumento.tipoInstrumento
-            )
+            );
         });
         $(this).text(escalas[escalaActual].nombre);
-    });    
+    });
 
     //SLIDER DE TEMPO
 
@@ -888,7 +913,6 @@ $(() => {
             $("#btnMenu").trigger("click");
             setTimeout(() => $("#btnSavePreset").text("Guardar Preset"), 500);
         }, 500);
-        
     });
 
     // COMUNICACION CON LA API
